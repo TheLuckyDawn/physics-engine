@@ -1,8 +1,7 @@
 #include <SFML/Graphics.hpp>
 #include <fstream>
 using namespace std;
-#include "engine/vector2.h"
-#include "engine/physicsObject.h"
+#include "engine/engine.h"
 
 int main() 
 {
@@ -11,20 +10,21 @@ int main()
     sf::Clock clock;
     
     sf::Font font;
-    if (!font.loadFromFile("fonts/arial.ttf"))
+    if (!font.loadFromFile("fonts/Roboto-Regular.ttf"))
     {
         window.setTitle("error!");
     }
+
     sf::Text text("Test String", font, 300);
     text.setFillColor(sf::Color::Red);
     sf::Vector2f textPosition(300, 300);
     text.setPosition(textPosition);
 
-    sf::RectangleShape rect;
-    PhysicsObject rectangle(10, 25, Vector2(600, 350), Vector2(50, 0));
-
-    rect.setSize(sf::Vector2f(100,100));
-
+    PhysicsObject rectangle(1000, 50, Vector2(600, 350), Vector2(50, 0), PhysicsObject::square);
+    Engine::addToObjectPool(rectangle);
+    PhysicsObject circle(10, 15, Vector2(100, 100), Vector2(0,0), PhysicsObject::circle);
+    Engine::addToObjectPool(circle);
+    //Verlet tester(Vector2(50,50), Vector2(10, 0), Vector2(0, 10));
     while (window.isOpen())
     {
         //setting delta time
@@ -37,17 +37,25 @@ int main()
             if (event.type == sf::Event::Closed) window.close();
 
             if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape)) window.close();
+
+            if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space)) {
+                //rectangle.updateMovement(deltaTime);
+                //tester.update();
+                float x = (*Engine::allObjs[0]).getVelocity().y;
+                window.setTitle(std::to_string(x));
+            };
         }
         
         
         //rendering
 
         window.clear();
-        window.draw(rect);
+        Engine::draw(window);
+        //rectangle.draw(window);
         window.draw(text);
         window.display();
-        rectangle.updateMovement(deltaTime);
-        rect.setPosition(sf::Vector2f(rectangle.topLeftCorner().x, rectangle.topLeftCorner().y));
+        //rectangle.updateMovement(deltaTime);
+        Engine::update(deltaTime);
     }
 
     return 0;

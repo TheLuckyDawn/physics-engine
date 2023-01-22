@@ -2,6 +2,7 @@
 #define PHYSICS_OBJECT_H
 #include "verlet.h"
 #include "vector2.h"
+#include <SFML/Graphics.hpp>
 #include <list>
 using namespace std;
 
@@ -17,8 +18,10 @@ class PhysicsObject
     public:
         static const int circle = 0;
         static const int square = 1;
+        int ID;
 
-        PhysicsObject(float m, float r, Vector2 position, Vector2 velocity);
+        PhysicsObject(float m, float r, Vector2 position, Vector2 velocity, int shape);
+        PhysicsObject();
 
         float getMass();
 
@@ -28,6 +31,7 @@ class PhysicsObject
         Vector2 getVelocity();
         Vector2 getAcceleration();
         Vector2 sumForces();
+        void draw(sf::RenderWindow &window);
         void updateAcceleration();
         void updateMovement(float deltaTime);
         void applyForce(Vector2 force);
