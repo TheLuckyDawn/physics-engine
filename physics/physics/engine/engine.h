@@ -8,14 +8,17 @@ using namespace std;
 class Engine
 {
     private:
-        static int menuID;
         static int nextID;
         
     public:
+        static bool isTyping;
+        static bool isPaused;
         static PhysicsObject* allObjs[];
         static void draw(sf::RenderWindow &window);
         static void update(float dt);
-        static void changeState();
+        static void pause();
+        static void switchTypingMode();
         static void addToObjectPool(PhysicsObject& object);
+        static int handleCollisionsObject(PhysicsObject object);
 };
 #endif

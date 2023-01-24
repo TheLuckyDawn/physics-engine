@@ -1,6 +1,12 @@
 #include "vector2.h"
 #include <cmath>
 
+/*
+This is just my own implementation of Vector2s, you can laugh at how overcomplicated it is.
+I do not know why I didn't just use a struct, or the built-in version. But hey, it's here!
+There isn't much to do with physics, other than the fact that certain physics concepts use
+vectors to work. That code isn't in here, though.
+*/
 Vector2::Vector2(float initialX, float initialY)
 {
     x = initialX;
